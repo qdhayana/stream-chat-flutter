@@ -120,6 +120,7 @@ class StreamMessageTextField extends StatefulWidget {
     this.enableIMEPersonalizedLearning = true,
     this.contentInsertionConfiguration,
     this.onTextChange,
+    this.showScrollbar = true,
   })  : assert(obscuringCharacter.length == 1, ''),
         smartDashesType = smartDashesType ??
             (obscureText ? SmartDashesType.disabled : SmartDashesType.enabled),
@@ -519,6 +520,9 @@ class StreamMessageTextField extends StatefulWidget {
   ///Handle onTextfield Change
   final Function(String)? onTextChange;
 
+  ///Handle Scrollbar Visibility
+  final bool showScrollbar;
+
   @override
   _StreamMessageTextFieldState createState() => _StreamMessageTextFieldState();
 
@@ -658,67 +662,83 @@ class _StreamMessageTextFieldState extends State<StreamMessageTextField>
   final ScrollController _scrollController = ScrollController();
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(right: 4),
-        child: TextField(
-          controller: _effectiveController.textFieldController,
-          focusNode: widget.focusNode,
-          decoration: widget.decoration,
-          keyboardType: widget.keyboardType,
-          textInputAction: widget.textInputAction ??
-              (widget.keyboardType == TextInputType.multiline
-                  ? TextInputAction.newline
-                  : TextInputAction.send),
-          textCapitalization: widget.textCapitalization,
-          style: widget.style,
-          strutStyle: widget.strutStyle,
-          textAlign: widget.textAlign,
-          textAlignVertical: widget.textAlignVertical,
-          textDirection: widget.textDirection,
-          readOnly: widget.readOnly,
-          showCursor: widget.showCursor,
-          autofocus: widget.autofocus,
-          obscuringCharacter: widget.obscuringCharacter,
-          obscureText: widget.obscureText,
-          autocorrect: widget.autocorrect,
-          smartDashesType: widget.smartDashesType,
-          smartQuotesType: widget.smartQuotesType,
-          enableSuggestions: widget.enableSuggestions,
-          maxLines: widget.maxLines,
-          minLines: widget.minLines,
-          expands: widget.expands,
-          maxLength: widget.maxLength,
-          maxLengthEnforcement: widget.maxLengthEnforcement,
-          onEditingComplete: widget.onEditingComplete,
-          onSubmitted: widget.onSubmitted,
-          onAppPrivateCommand: widget.onAppPrivateCommand,
-          inputFormatters: widget.inputFormatters,
-          enabled: widget.enabled,
-          cursorWidth: widget.cursorWidth,
-          cursorHeight: widget.cursorHeight,
-          cursorRadius: widget.cursorRadius,
-          cursorColor: widget.cursorColor,
-          selectionHeightStyle: widget.selectionHeightStyle,
-          selectionWidthStyle: widget.selectionWidthStyle,
-          keyboardAppearance: widget.keyboardAppearance,
-          scrollPadding: widget.scrollPadding,
-          dragStartBehavior: widget.dragStartBehavior,
-          enableInteractiveSelection: widget.enableInteractiveSelection,
-          selectionControls: widget.selectionControls,
-          onTap: widget.onTap,
-          mouseCursor: widget.mouseCursor,
-          buildCounter: widget.buildCounter,
-          scrollController: _scrollController,
-          scrollPhysics: widget.scrollPhysics,
-          autofillHints: widget.autofillHints,
-          clipBehavior: widget.clipBehavior,
-          restorationId: widget.restorationId,
-          // ignore: deprecated_member_usescribbleEnabled: widget.scribbleEnabled,
-          enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-          contentInsertionConfiguration: widget.contentInsertionConfiguration,
-          onChanged: widget.onTextChange,
-        ),
-      );
+  Widget build(BuildContext context) => widget.showScrollbar
+      ? ScrollbarTheme(
+          data: const ScrollbarThemeData(
+            mainAxisMargin: 12,
+          ),
+          child: Scrollbar(
+            controller: _scrollController,
+            radius: const Radius.circular(10),
+            thumbVisibility: false,
+            child: _buildTextfield(),
+          ),
+        )
+      : _buildTextfield();
+
+  Padding _buildTextfield() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: TextField(
+        controller: _effectiveController.textFieldController,
+        focusNode: widget.focusNode,
+        decoration: widget.decoration,
+        keyboardType: widget.keyboardType,
+        textInputAction: widget.textInputAction ??
+            (widget.keyboardType == TextInputType.multiline
+                ? TextInputAction.newline
+                : TextInputAction.send),
+        textCapitalization: widget.textCapitalization,
+        style: widget.style,
+        strutStyle: widget.strutStyle,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
+        textDirection: widget.textDirection,
+        readOnly: widget.readOnly,
+        showCursor: widget.showCursor,
+        autofocus: widget.autofocus,
+        obscuringCharacter: widget.obscuringCharacter,
+        obscureText: widget.obscureText,
+        autocorrect: widget.autocorrect,
+        smartDashesType: widget.smartDashesType,
+        smartQuotesType: widget.smartQuotesType,
+        enableSuggestions: widget.enableSuggestions,
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
+        expands: widget.expands,
+        maxLength: widget.maxLength,
+        maxLengthEnforcement: widget.maxLengthEnforcement,
+        onEditingComplete: widget.onEditingComplete,
+        onSubmitted: widget.onSubmitted,
+        onAppPrivateCommand: widget.onAppPrivateCommand,
+        inputFormatters: widget.inputFormatters,
+        enabled: widget.enabled,
+        cursorWidth: widget.cursorWidth,
+        cursorHeight: widget.cursorHeight,
+        cursorRadius: widget.cursorRadius,
+        cursorColor: widget.cursorColor,
+        selectionHeightStyle: widget.selectionHeightStyle,
+        selectionWidthStyle: widget.selectionWidthStyle,
+        keyboardAppearance: widget.keyboardAppearance,
+        scrollPadding: widget.scrollPadding,
+        dragStartBehavior: widget.dragStartBehavior,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        selectionControls: widget.selectionControls,
+        onTap: widget.onTap,
+        mouseCursor: widget.mouseCursor,
+        buildCounter: widget.buildCounter,
+        scrollController: _scrollController,
+        scrollPhysics: widget.scrollPhysics,
+        autofillHints: widget.autofillHints,
+        clipBehavior: widget.clipBehavior,
+        restorationId: widget.restorationId,
+        // ignore: deprecated_member_usescribbleEnabled: widget.scribbleEnabled,
+        enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
+        contentInsertionConfiguration: widget.contentInsertionConfiguration,
+        onChanged: widget.onTextChange,
+      ),
+    );
+  }
 
   @override
   void dispose() {
