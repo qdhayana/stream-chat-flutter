@@ -121,6 +121,7 @@ class StreamMessageTextField extends StatefulWidget {
     this.contentInsertionConfiguration,
     this.onTextChange,
     this.showScrollbar = true,
+    this.onTapOutside,
   })  : assert(obscuringCharacter.length == 1, ''),
         smartDashesType = smartDashesType ??
             (obscureText ? SmartDashesType.disabled : SmartDashesType.enabled),
@@ -523,6 +524,9 @@ class StreamMessageTextField extends StatefulWidget {
   ///Handle Scrollbar Visibility
   final bool showScrollbar;
 
+  /// {@macro flutter.widgets.TextField.onTapOutside}
+  final TapRegionCallback? onTapOutside;
+
   @override
   _StreamMessageTextFieldState createState() => _StreamMessageTextFieldState();
 
@@ -736,6 +740,7 @@ class _StreamMessageTextFieldState extends State<StreamMessageTextField>
         enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
         contentInsertionConfiguration: widget.contentInsertionConfiguration,
         onChanged: widget.onTextChange,
+        onTapOutside: widget.onTapOutside,
       ),
     );
   }

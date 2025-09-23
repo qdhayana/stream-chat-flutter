@@ -162,6 +162,7 @@ class StreamMessageInput extends StatefulWidget {
     this.prefix,
     this.suffix,
     this.showScrollbar = true,
+    this.onTapOutside,
   });
 
   /// The predicate used to send a message on desktop/web
@@ -430,6 +431,9 @@ class StreamMessageInput extends StatefulWidget {
 
   /// Handle Scrollbar Visibility
   final bool showScrollbar;
+
+  /// {@macro flutter.widgets.TextField.onTapOutside}
+  final TapRegionCallback? onTapOutside;
 
   static String? _defaultHintGetter(BuildContext context, HintType type) {
     switch (type) {
@@ -1092,6 +1096,7 @@ class StreamMessageInputState extends State<StreamMessageInput>
                         contentInsertionConfiguration:
                             widget.contentInsertionConfiguration,
                         onTextChange: widget.onTextChanged,
+                        onTapOutside: widget.onTapOutside,
                       ),
                     ),
                     if (widget.suffix != null) widget.suffix!,
